@@ -1,7 +1,7 @@
 from flask import Flask
 from transformers import pipeline
 import requests as r
-import json
+from flask import request
 
 app = Flask(__name__)
 
@@ -35,7 +35,7 @@ def query(payload):
     response = r.post(API_URL, headers=headers, json=payload)
     return response.json()
 
-@app.route('/TMP', methods=['GET'])
+@app.route('/model_query', methods=['GET'])
 def model_query():
     question = "What are the symptoms of diabetes?"
     context = "Diabetes is a metabolic disease that causes high blood sugar. The symptoms include increased thirst, frequent urination, and unexplained weight loss."
