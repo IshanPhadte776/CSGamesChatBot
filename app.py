@@ -3,17 +3,6 @@ from transformers import pipeline
 import requests as r
 import json
 
-API_URL = "https://xevhza5rhd1jhkq8.us-east-1.aws.endpoints.huggingface.cloud"
-
-headers = {
-	"Accept" : "application/json",
-	"Content-Type": "application/json" 
-}
-
-def query(payload):
-	response = r.post(API_URL, headers=headers, json=payload)
-	return response.json()
-
 app = Flask(__name__)
 
 #loading static files
@@ -33,11 +22,31 @@ def style():
 def js():
     return load_file("index.js")
 
-#
-@app.route('/TMP', methods=['POST'])
-def hello():
+
+
+API_URL = "https://xevhza5rhd1jhkq8.us-east-1.aws.endpoints.huggingface.cloud"
+
+headers = {
+    "Accept" : "application/json",
+    "Content-Type": "application/json" ,
+}
+
+def query(payload):
+    response = r.post(API_URL, headers=headers, json=payload)
+    return response.json()
+
+@app.route('/TMP', methods=['GET'])
+def model_query():
+    question = "What are the symptoms of diabetes?"
+    context = "Diabetes is a metabolic disease that causes high blood sugar. The symptoms include increased thirst, frequent urination, and unexplained weight loss."
+    
+    query_input = f"Context: {context}\n\nQuestion: {question}\n\nAnswer: "
+
     output = query({
-        "inputs": "Say hello big boi",
-        "parameters": {}
+        "inputs": query_input,
+        "parameters": {
+            "max_new_tokens": 256,
+            "temperature": 0.1,
+        }
     })
-    return output["generated_text"]
+    return output
