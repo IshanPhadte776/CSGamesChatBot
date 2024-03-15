@@ -1,7 +1,7 @@
 from flask import Flask
 from transformers import pipeline
 import requests as r
-from flask import request
+from flask import request, session
 
 app = Flask(__name__)
 
@@ -38,12 +38,12 @@ def query(payload):
 @app.route('/model_query', methods=['GET'])
 def model_query():
     
-    print(request.get_json())
+    data = request.get_json()
 
-    question = "What are the symptoms of diabetes?"
-    context = "Diabetes is a metabolic disease that causes high blood sugar. The symptoms include increased thirst, frequent urination, and unexplained weight loss."
+    user_query = data["query"]
+    short_term_memory = "\n".join(data["buf"])
     
-    query_input = f"Context: {context}\n\nQuestion: {question}\n\nAnswer: "
+    query_input = f"{short_term_memory}\n\npatient:{user_query}\n\nAnswer the query as a medical professional: "
 
     output = query({
         "inputs": query_input,
