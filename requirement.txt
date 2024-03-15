@@ -1,1 +1,5 @@
+# SERVER STUFF BABY
 Flask
+
+# AI SHIT
+transformers
