@@ -37,6 +37,9 @@ def query(payload):
 
 @app.route('/model_query', methods=['GET'])
 def model_query():
+    
+    print(request.get_json())
+
     question = "What are the symptoms of diabetes?"
     context = "Diabetes is a metabolic disease that causes high blood sugar. The symptoms include increased thirst, frequent urination, and unexplained weight loss."
     
