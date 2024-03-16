@@ -35,10 +35,15 @@ def query(payload):
     response = r.post(API_URL, headers=headers, json=payload)
     return response.json()
 
-@app.route('/model_query', methods=['GET'])
+@app.route('/model_query', methods=['POST'])
 def model_query():
+
+    print("Model query")
     
     data = request.get_json()
+
+    print(data)
+
 
     user_query = data["query"]
     short_term_memory = "\n".join(data["buf"])
@@ -53,3 +58,11 @@ def model_query():
         }
     })
     return output
+
+
+##
+
+# {
+#     "buf": ["user:I have a bloody nose", "bot:How can we aid you?", "bot:Hello"],
+#     "query":"I have a bloody nose"
+# }

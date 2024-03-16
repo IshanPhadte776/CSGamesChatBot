@@ -26,6 +26,8 @@ body {
 
 h1 {
   font-size: larger;
+  justify-content: center;
+
 }
 
 section {
